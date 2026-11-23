@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Interés Simple</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:Arial,sans-serif;background:linear-gradient(135deg,#e9f2ff,#f8faff);color:#233047;display:flex;align-items:center;justify-content:center;padding:24px}
+.card{background:white;width:100%;max-width:650px;border-radius:22px;padding:32px;box-shadow:0 14px 40px #1c355515}
+h1{margin:0 0 8px;color:#2356a5;text-align:center}
+.sub{text-align:center;color:#65758b;margin-bottom:26px}
+label{display:block;margin:14px 0 7px;font-weight:700}
+input,select{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-size:16px}
+button{margin-top:20px;width:100%;border:0;background:#2864bc;color:white;padding:14px;border-radius:12px;font-weight:bold;font-size:16px;cursor:pointer}
+button:hover{background:#1e4f98}
+.result{display:none;margin-top:22px;background:#eef5ff;border-radius:14px;padding:18px}
+.result p{margin:8px 0;font-size:18px}
+.note{font-size:13px;color:#64748b;margin-top:20px;text-align:center}
+</style>
+</head>
+<body>
+<div class="card">
+<h1>Calculadora de Interés Simple</h1>
+<div class="sub">Calcula cuánto interés genera tu inversión o préstamo.</div>
+<label for="capital">Capital inicial ($)</label>
+<input id="capital" type="number" min="0" step="any" placeholder="Ej. 1000000">
+<label for="tasa">Tasa de interés (%)</label>
+<input id="tasa" type="number" min="0" step="any" placeholder="Ej. 5">
+<label for="tiempo">Tiempo</label>
+<input id="tiempo" type="number" min="0" step="any" placeholder="Ej. 12">
+<label for="periodo">Unidad de tiempo de la tasa</label>
+<select id="periodo"><option value="mensual">Mensual (tiempo en meses)</option><option value="anual">Anual (tiempo en años)</option></select>
+<button onclick="calcular()">Calcular interés</button>
+<div class="result" id="resultado">
+<p id="interes"></p><p id="total"></p>
+</div>
+<div class="note">Fórmula: I = C × i × t | M = C + I</div>
+</div>
+<script>
+function calcular(){
+ const C=parseFloat(document.getElementById('capital').value);
+ const tasa=parseFloat(document.getElementById('tasa').value);
+ const t=parseFloat(document.getElementById('tiempo').value);
+ if(!Number.isFinite(C)||!Number.isFinite(tasa)||!Number.isFinite(t)||C<0||tasa<0||t<0){
+  alert('Por favor, ingresa valores válidos y mayores o iguales a cero.');return;
+ }
+ const I=C*(tasa/100)*t;
+ const M=C+I;
+ const fmt=new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:2});
+ document.getElementById('interes').textContent='Interés generado: '+fmt.format(I);
+ document.getElementById('total').textContent='Monto total: '+fmt.format(M);
+ document.getElementById('resultado').style.display='block';
+}
+</script>
+</body>
+</html>
